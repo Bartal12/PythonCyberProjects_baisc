@@ -1,0 +1,17 @@
+import hashlib
+import pyfiglet
+
+print("The program Work ONLY with MD5 hashes")
+banner = pyfiglet.figlet_format("KingsNeverDie \nHashCraker")
+print(banner)
+
+wordlist_location = str(input("Wordlist Path :"))
+hash_input = str(input("Hash :"))
+
+with open(wordlist_location, r)as file:
+    for line in file.readlines():
+        hash_obj = hashlib.md5(line.strip().encode())
+        hashed_pass = hash_obj.hexdigest()
+        if hashed_pass == hash_input:
+            print("Success : " + line.strip())
+            exit(0)
