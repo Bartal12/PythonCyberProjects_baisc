@@ -1,0 +1,35 @@
+import requests
+
+def subdomain_enumeratiom():
+    #headline
+    print("\\.. SubDomain Enumeration Script ..//")
+    # domain input
+
+
+    #wordlist file : take paths until file found .
+    while True:
+        domain = input("Enter Domain name:\n(Example : youtube.com) ")
+        try:
+            wordlist = input("Enter Wordlist path:")
+            filelist = open(wordlist).read()
+            break
+        except FileNotFoundError:
+            print("file Not Found, try again!")
+
+    # make a list of subdomain from wordlist file for the "for loop" .        
+    subdoms = wordlist.splitlines()
+
+    # for loop take one subdomain from the list and append to the adress
+    for sub in subdoms:
+        sub_domains = f"http://{sub}.{domain}"
+
+        try:
+            requests.get(sub_domains)
+        except requests.ConnectionError:
+            print("There are no matches from the list, try another list")
+            pass
+        else:
+            print("Valid Domain:", sub_domains)
+
+
+subdomain_enumeratiom()
