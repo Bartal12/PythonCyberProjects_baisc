@@ -1,0 +1,40 @@
+import sys
+import socket
+import pyfiglet
+
+banner = pyfiglet.figlet_format('KingsNeverDIe \n Port Scanner') # banner 
+print(banner)
+
+ip = input("Enter IP :")
+ports = range(1, 65535)
+open_ports = [] 
+
+def probe_port(ip, port, result=1):
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # ipv4 socket 
+        sock.settimeout(0.5) 
+        r = sock.connect_ex((ip, port)) # tuple socket with ip & port 
+        if r == 0:
+            result = r
+        sock.close()
+
+    except Exception as a:
+        pass
+    return result
+
+
+# """for loop to ping every port in the rage of 1, 65535"""
+
+for port in ports:
+    sys.stdout.flush()
+    response = probe_port(ip, port)
+    if response == 0:
+        open_ports.append(port)
+
+
+if open_ports:
+    print("Ports open are : ")
+    print(sorted(open_ports))
+else:
+    print("No Open Ports Found !")
+
